@@ -1,0 +1,19 @@
+{
+    "name": "bni/suicide",
+    "description": "Commit suicide and fade out your project exists in the universe",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Riyan Satria",
+            "email": "dontemailme@somewebsite.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "BNI\\": "src\\Suicide"
+         }
+    },
+    "require": {}
+}
