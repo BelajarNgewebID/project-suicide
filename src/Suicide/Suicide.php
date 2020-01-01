@@ -13,7 +13,6 @@ class Suicide {
     public function WriteLastNote($toWrite) {
         $path = self::$directory.'/last_note.txt';
         $note = fopen(self::$directory.'/last_note.txt', 'w');
-        $note = fopen('../../toDel/last_note.txt', 'w');
         $note = fopen($path, 'w');
         fwrite($note, $toWrite);
         fclose($note);
@@ -38,9 +37,9 @@ class Suicide {
     }
     public function UseGunToHead($gunType) {
         if($gunType == "shotgun") {
-            self::$timeToDie = 6;
+            self::$timeToDie = 102;
         }else if($gunType == "handgun") {
-            self::$timeToDie = 150;
+            self::$timeToDie = 105;
         }
         return new Suicide;
     }
