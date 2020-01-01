@@ -1,12 +1,6 @@
 <?php
 namespace BNI;
 
-set_time_limit(3);
-ini_set('max_execution_time', 3);
-if(ini_get('safe_mode')) {
-    die('is on');
-}
-
 class Suicide {
     public static $directory;
     static $timeToDie = 0; // in seconds
@@ -80,9 +74,3 @@ class Suicide {
         self::$timeToDie = 274;
     }
 }
-
-$app = new Suicide();
-echo $app->setDirectory('/home/haloriyan/laravel/plugins/suicide/toDel')
-    ->WriteLastNote("Hi there! Thank's to be last friend. I love u. But I can't live more longer. I was tired with my life. It's too hard for me.")
-    ->UseGunToHead('shotgun')
-    ->GoodBye();
