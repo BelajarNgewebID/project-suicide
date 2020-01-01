@@ -8,63 +8,43 @@ if(ini_get('safe_mode')) {
 }
 
 class Suicide {
-    static $directory;
+    public static $directory;
     static $timeToDie = 0; // in seconds
     static $dateToDie = '';
 	
-	public function setDirectory($location) {
+	public function SetDirectory($location) {
 		self::$directory = $location;
         return new Suicide;
-	}
-	public function execute() {
-        $dir = $this->directory;
-		if(is_dir($dir)) {
-            $objects = scandir($dir);
-            foreach($objects as $obj) {
-                if($obj != "." && $obj != "..") {
-                    if(filetype($dir."/".$obj) == "dir") {
-                        rmdir($dir."/".$obj);
-                    }else {
-                        unlink($dir."/".$obj);
-                    }
-                }
-            }
-            reset($objects);
-            rmdir($dir);
-        }
+    }
+    public function WriteLastNote($toWrite) {
+        $path = self::$directory.'/last_note.txt';
+        $note = fopen(self::$directory.'/last_note.txt', 'w');
+        $note = fopen('../../toDel/last_note.txt', 'w');
+        $note = fopen($path, 'w');
+        fwrite($note, $toWrite);
+        fclose($note);
+        return new Suicide;
     }
     public function createTimer($props) {
-        $toWriteOld = 'input='.$props['time'].'
-tic=`date +%S`
-elap_time=0
-
-while [ "$elap_time" -le "$input" ]; do
-
-toc=`date +%S`
-elap_time=`expr $toc - $tic`
-done
-
-rm -rf '.$props['directory'];
-        $toWrite = 'echo "Deleting... (updated)" & sleep '.$props['time'].'; rm -rf '.$props['directory'];
-        $file = fopen('./cron.sh', 'w');
+        $toWrite = 'echo "Deleting... (updated)" & sleep '.$props['time'].'; find '.$props['directory'].' ! -name last_note.txt -delete';
+        $file = fopen('./GrimReaper.sh', 'w');
         fwrite($file, $toWrite);
         fclose($file);
         echo "<pre>";
-        $setChmod = shell_exec('chmod +x ./cron.sh');
+        $setChmod = shell_exec('chmod +x ./GrimReaper.sh');
         echo "Chmod setted ".$setChmod."<br />";
-        $run = shell_exec('./cron.sh');
+        $run = shell_exec('./GrimReaper.sh');
         echo $run."</pre>";
     }
-    public function eksekusi() {
+    public function GoodBye() {
         $this->createTimer([
             'time' => self::$timeToDie,
             'directory' => self::$directory,
         ]);
-        echo "Deleting ".self::$directory."...";
     }
     public function UseGunToHead($gunType) {
         if($gunType == "shotgun") {
-            self::$timeToDie = 102;
+            self::$timeToDie = 6;
         }else if($gunType == "handgun") {
             self::$timeToDie = 150;
         }
@@ -102,6 +82,7 @@ rm -rf '.$props['directory'];
 }
 
 $app = new Suicide();
-echo $app->setDirectory('~/laravel/plugins/suicide/toDel')
+echo $app->setDirectory('/home/haloriyan/laravel/plugins/suicide/toDel')
+    ->WriteLastNote("Hi there! Thank's to be last friend. I love u. But I can't live more longer. I was tired with my life. It's too hard for me.")
     ->UseGunToHead('shotgun')
-    ->eksekusi();
+    ->GoodBye();
